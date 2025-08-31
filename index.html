@@ -1,6 +1,12 @@
 <!doctype html>
 <html lang="ko">
 <head>
+  <link rel="manifest" href="manifest.json">
+<script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>QuietTimer — 무소음 스톱워치 & 카운트다운</title>
