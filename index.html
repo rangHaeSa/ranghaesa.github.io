@@ -1,20 +1,19 @@
 <!doctype html>
 <html lang="ko">
 <head>
+  <!-- Googlw AdSense -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3600890134957135" crossorigin="anonymous"></script>
-  <link rel="manifest" href="manifest.json">
-  <script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js");
-}
-</script>
-  <meta charset="utf-8" />
   <meta name="google-adsense-account" content="ca-pub-3600890134957135">
+  <meta name="google-site-verification" content="bKCmTnTntviDHLvqQMo99tuGOyddNbqX9r3vTvc-AXI" />
+
+  <!-- 기본 메타 -->
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>QuietTimer — 무소음 스톱워치 & 카운트다운</title>
-  <meta name="description" content="무소음 타이머(QuietTimer) — 소리 없이 작업 시간을 재는 무료 스톱워치와 카운트다운 타이머. 기록은 내 기기에만 저장됩니다.">
-  <meta name="keywords" content="무소음 타이머, 스톱워치, 카운트다운, 온라인 타이머, 조용한 타이머, QuietTimer">
+  <meta name="description" content="QuietTimer는 무소음 온라인 타이머 서비스입니다. 스톱워치, 카운트다운, 기록 저장 및 내보내기 기능을 제공하며, 공부와 업무에 집중할 수 있도록 도와줍니다.">
+  <meta name="keywords" content="무소음 타이머, 온라인 타이머, 스톱워치, 카운트다운, 집중, QuietTimer">
 
+  <!-- 색상 스타일 -->
   <style>
     /* ===== 색/레이아웃(라이트/다크 대응) ===== */
     :root { --bg:#0b0c10; --card:#121419; --text:#e7e9ee; --muted:#aab0bf; --border:#232834; --brand:#61dafb; --ok:#34c759; --bad:#ff453a; }
@@ -45,16 +44,28 @@ if ("serviceWorker" in navigator) {
     th,td{ padding:8px; border-bottom:1px solid var(--border); text-align:left; }
     .hidden{ display:none !important; }
   </style>
-    <meta name="google-site-verification" content="bKCmTnTntviDHLvqQMo99tuGOyddNbqX9r3vTvc-AXI" />
+  
+  <link rel="manifest" href="manifest.json">
+  <script>
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js");
+}
+</script>
+
+
 </head>
 <body>
   <header>
     <div class="wrap inner">
       <strong>QuietTimer</strong>
       <nav>
-        <a href="#home">홈</a>
+       <a href="#home">홈</a>
+        <a href="#about">소개</a>
+        <a href="#guide">사용법</a>
+        <a href="#faq">FAQ</a>
         <a href="#privacy">개인정보</a>
         <a href="#terms">약관</a>
+        <a href="#contact">문의</a>
       </nav>
     </div>
   </header>
@@ -69,11 +80,12 @@ if ("serviceWorker" in navigator) {
         <!-- 스톱워치 -->
         <article class="card">
           <h2>스톱워치</h2>
+          <p>작업 시간을 자유롭게 기록하고, 랩(Lap) 기능으로 세부 구간까지 관리할 수 있습니다.</p>
+          <div id="swDisplay" class="big" aria-live="polite">00:00:00.00</div>
           <label>작업 이름
             <input id="swTask" type="text" placeholder="예: 리포트 작성">
           </label>
 
-          <div id="swDisplay" class="big" aria-live="polite">00:00:00.00</div>
 
           <div class="controls">
             <button id="swStart" class="primary pill">시작</button>
@@ -89,18 +101,24 @@ if ("serviceWorker" in navigator) {
           </table>
         </article>
 <!-- quiettimer -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-3600890134957135"
-     data-ad-slot="2736365938"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+
+      <!-- 광고 블록 -->
+      <div class="card">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3600890134957135"
+             data-ad-slot="2736365938"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
         <!-- 카운트다운 -->
         <article class="card">
           <h2>카운트다운</h2>
+          <p>Pomodoro 방식 공부, 운동, 발표 시간 관리 등 다양한 상황에 활용할 수 있습니다.</p>
+          <div id="cdDisplay" class="big" aria-live="polite">25:00.00</div>
           <div class="controls">
             <label>분 <input id="cdMin" type="number" min="0" value="25"></label>
             <label>초 <input id="cdSec" type="number" min="0" max="59" value="0"></label>
@@ -110,7 +128,6 @@ if ("serviceWorker" in navigator) {
             <label><input id="notifyOpt" type="checkbox"> 데스크톱 알림</label>
           </div>
 
-          <div id="cdDisplay" class="big" aria-live="polite">25:00.00</div>
 
           <div class="controls">
             <button id="cdStart" class="primary pill">시작</button>
@@ -123,11 +140,47 @@ if ("serviceWorker" in navigator) {
       </div>
     </section>
 
+
+    <!-- 소개 -->
+    <section id="about" class="route hidden">
+      <div class="card">
+        <h2>QuietTimer 소개</h2>
+        <p>QuietTimer는 무소음 환경에서 집중할 수 있도록 설계된 무료 온라인 타이머입니다. 브라우저만 있으면 어디서든 사용할 수 있으며, 별도의 회원가입이나 설치가 필요하지 않습니다.</p>
+        <p>특히 도서관, 스터디룸, 사무실 등 소리를 낼 수 없는 상황에서 효율적으로 시간을 관리할 수 있도록 도와줍니다.</p>
+      </div>
+    </section>
+
+    <!-- 사용법 -->
+    <section id="guide" class="route hidden">
+      <div class="card">
+        <h2>사용법</h2>
+        <ol>
+          <li>스톱워치를 이용해 공부/업무 시간을 기록하세요.</li>
+          <li>카운트다운 기능으로 목표 시간을 설정하고 집중하세요.</li>
+          <li>랩 기능을 통해 세부 구간을 기록할 수 있습니다.</li>
+          <li>기록은 로컬 저장소에만 저장되며, 필요 시 CSV 파일로 내보낼 수 있습니다.</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="route hidden">
+      <div class="card">
+        <h2>자주 묻는 질문</h2>
+        <h3>1. 기록은 서버로 전송되나요?</h3>
+        <p>아니요. 모든 기록은 브라우저 로컬 저장소(LocalStorage)에만 보관됩니다.</p>
+        <h3>2. 모바일에서도 사용 가능한가요?</h3>
+        <p>네. 모바일 브라우저에서도 동일하게 동작합니다.</p>
+        <h3>3. 광고가 표시되는 이유는?</h3>
+        <p>서비스 유지 및 무료 제공을 위해 Google AdSense 광고가 일부 영역에 표시됩니다.</p>
+      </div>
+    </section>
+
     <!-- 개인정보 -->
     <section id="privacy" class="route hidden">
       <div class="card">
         <h2>개인정보처리방침</h2>
-        <p>타이머 기록은 브라우저 <strong>로컬 저장소(LocalStorage)</strong>에만 저장되며, 서버로 전송되지 않습니다.</p>
+        <p>QuietTimer는 사용자의 개인정보를 수집하지 않습니다. 기록 데이터는 브라우저 로컬 저장소에만 저장되며, 서버로 전송되지 않습니다.</p>
       </div>
     </section>
 
@@ -136,10 +189,18 @@ if ("serviceWorker" in navigator) {
       <div class="card">
         <h2>이용약관</h2>
         <ol>
-          <li>서비스는 “있는 그대로” 제공됩니다.</li>
-          <li>타인의 권리를 침해하지 않는 범위에서 이용해야 합니다.</li>
-          <li>기록은 사용자 기기에 저장됩니다.</li>
+          <li>본 서비스는 무료로 제공되며, “있는 그대로” 사용됩니다.</li>
+          <li>사용자는 타인의 권리를 침해하지 않는 선에서 서비스를 이용해야 합니다.</li>
+          <li>서비스 이용 중 발생하는 모든 기록은 사용자 기기에만 저장됩니다.</li>
         </ol>
+      </div>
+    </section>
+
+    <!-- 문의 -->
+    <section id="contact" class="route hidden">
+      <div class="card">
+        <h2>문의하기</h2>
+        <p>서비스 관련 문의는 이메일 <a href="mailto:contact@quiettimer.app">contact@quiettimer.app</a> 으로 연락 주시기 바랍니다.</p>
       </div>
     </section>
   </main>
