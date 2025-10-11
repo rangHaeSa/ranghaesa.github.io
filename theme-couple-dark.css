@@ -1,0 +1,181 @@
+/* ===========================================
+   QuietTimer: Couple Dark Theme
+   Sophisticated dark & romantic palette
+   =========================================== */
+
+body.couple {
+  --bg:#0c0a0b;
+  --bg-grad-1:#1c1216;
+  --bg-grad-2:#1a0d10;
+  --card:#181316;
+  --card-border:#2a1e23;
+  --text:#f2e5e9;
+  --muted:#b48b96;
+  --accent:#e08fb5;     /* 로즈핑크 */
+  --accent-2:#a14d75;   /* 버건디 */
+  --accent-3:#2b171f;   /* 진한 포인트 */
+  --focus:#ffb3c6;
+  background:
+    radial-gradient(1200px 800px at 10% -10%, var(--bg-grad-2), transparent 60%),
+    radial-gradient(1000px 700px at 90% 0%, var(--bg-grad-1), transparent 55%),
+    var(--bg);
+  color:var(--text);
+  font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
+}
+
+/* 카드 */
+body.couple .card {
+  background: linear-gradient(145deg, #141014, #1c1619);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.6);
+  backdrop-filter: blur(6px);
+}
+
+/* 헤더 */
+body.couple header {
+  border-bottom: 1px solid #22181b;
+  padding-bottom: 10px;
+}
+body.couple nav a {
+  color: var(--accent);
+  text-decoration: none;
+  margin-right: 12px;
+}
+body.couple nav a:hover {
+  color: var(--focus);
+}
+
+/* 제목 */
+body.couple h1, body.couple h2 {
+  position: relative;
+  color: var(--accent);
+  letter-spacing: .3px;
+}
+body.couple h1::after, body.couple h2::after {
+  content:"";
+  position:absolute;
+  left:0; bottom:-6px;
+  width:72px; height:2px;
+  background:linear-gradient(90deg,var(--accent-2),transparent);
+  opacity:.6;
+}
+
+/* 버튼 */
+body.couple .btn {
+  border:none;
+  background: linear-gradient(160deg,var(--accent-2),var(--accent));
+  color:#fff;
+  padding:10px 14px;
+  border-radius:999px;
+  font-weight:500;
+  box-shadow:0 4px 14px rgba(224,143,181,.2);
+  transition:transform .08s ease, box-shadow .2s ease, filter .2s ease;
+}
+body.couple .btn:hover {
+  transform:translateY(-1px);
+  filter:brightness(1.15);
+  box-shadow:0 6px 16px rgba(224,143,181,.3);
+}
+
+/* 인풋 */
+body.couple input {
+  background:#120f11;
+  border:1px solid #37272d;
+  color:var(--text);
+  padding:8px 10px;
+  border-radius:10px;
+}
+body.couple input:focus {
+  outline:2px solid var(--accent);
+  border-color:var(--accent);
+}
+
+/* 타이머 숫자 */
+body.couple #stopwatch, body.couple #countdown {
+  font-variant-numeric:tabular-nums;
+  font-weight:700;
+  letter-spacing:.5px;
+  padding:.2em .4em;
+  border-radius:10px;
+  background:linear-gradient(90deg,#1a1013,#22151a);
+  color:var(--focus);
+  box-shadow:inset 0 0 8px rgba(224,143,181,.15);
+}
+
+/* 표 */
+body.couple table {
+  border-collapse:separate;
+  border-spacing:0 6px;
+}
+body.couple th {
+  color:var(--muted);
+  font-weight:600;
+  border:none;
+}
+body.couple td {
+  background:#120d0f;
+  border:1px solid #2e1f24;
+  border-left:4px solid var(--accent-2);
+  padding:10px;
+  border-radius:10px;
+  color:var(--text);
+}
+
+/* 광고 */
+body.couple ins.adsbygoogle {
+  border-radius:14px;
+  overflow:hidden;
+}
+
+/* 푸터 */
+body.couple footer {
+  border-top:1px solid #22181b;
+  margin-top:40px;
+  padding-top:10px;
+  font-size:.9rem;
+  color:var(--muted);
+}
+body.couple footer a {
+  color:var(--accent);
+  text-decoration:none;
+}
+body.couple footer a:hover {
+  text-decoration:underline;
+}
+
+/* 현재 시간 카드 */
+body.couple #now {
+  text-align:center;
+  border:1px solid #2a1e23;
+  background:linear-gradient(145deg,#181316,#120f11);
+  box-shadow:0 0 10px rgba(224,143,181,.08);
+}
+body.couple #korea-time {
+  font-family:"Roboto Mono",monospace;
+  font-size:1.6rem;
+  color:var(--focus);
+  text-shadow:0 0 8px rgba(224,143,181,.3);
+}
+
+/* 반응형 */
+@media(min-width:820px){
+  body.couple .grid-2{grid-template-columns:1fr 1fr;}
+}
+
+/* 현재 시각 카드 스타일 */
+body.couple #now {
+  text-align:center;
+  border:1px solid #2a1e23;
+  background:linear-gradient(145deg,#181316,#120f11);
+  box-shadow:0 0 10px rgba(224,143,181,.08);
+  margin-top:20px;
+}
+body.couple #korea-time {
+  font-family:"Roboto Mono",monospace;
+  font-size:1.5rem;
+  color:var(--focus);
+  text-shadow:0 0 8px rgba(224,143,181,.3);
+  letter-spacing:0.5px;
+}
+
