@@ -1,366 +1,196 @@
 <!doctype html>
 <html lang="ko">
 <head>
-  <!-- Googlw AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3600890134957135" crossorigin="anonymous"></script>
-  <meta name="google-adsense-account" content="ca-pub-3600890134957135">
-  <meta name="google-site-verification" content="bKCmTnTntviDHLvqQMo99tuGOyddNbqX9r3vTvc-AXI" />
-
-  <!-- 기본 메타 -->
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>QuietTimer — 무소음 스톱워치 & 카운트다운</title>
-  <meta name="description" content="QuietTimer는 무소음 온라인 타이머 서비스입니다. 스톱워치, 카운트다운, 기록 저장 및 내보내기 기능을 제공하며, 공부와 업무에 집중할 수 있도록 도와줍니다.">
-  <meta name="keywords" content="무소음 타이머, 온라인 타이머, 스톱워치, 카운트다운, 집중, QuietTimer">
+  <meta name="description" content="도서관·스터디룸에서도 쓸 수 있는 무소음 스톱워치/카운트다운. 기록은 로컬에만 저장됩니다." />
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" href="/icon-192.png" sizes="192x192">
+  <link rel="icon" href="/icon-512.png" sizes="512x512">
+  <link rel="canonical" href="https://ranghaesa.github.io/">
 
-  <!-- 색상 스타일 -->
+  <!-- AdSense: client ID만 넣고, 슬롯은 아래 <ins>에서 교체 -->
+  <script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3600890134957135"
+    crossorigin="anonymous"></script>
+
   <style>
-    /* ===== 색/레이아웃(라이트/다크 대응) ===== */
-    :root { --bg:#0b0c10; --card:#121419; --text:#e7e9ee; --muted:#aab0bf; --border:#232834; --brand:#61dafb; --ok:#34c759; --bad:#ff453a; }
-    @media (prefers-color-scheme: light){
-      :root { --bg:#f6f7fb; --card:#fff; --text:#0b0c10; --muted:#4b5563; --border:#e5e7eb; }
-    }
-    *{ box-sizing:border-box; }
-    html,body{ margin:0; background:var(--bg); color:var(--text); font-family:system-ui, -apple-system, Segoe UI, Roboto, Pretendard, Apple SD Gothic Neo, Malgun Gothic, sans-serif; }
-    .wrap{ max-width:900px; margin:0 auto; padding:16px; }
-    header{ position:sticky; top:0; background:rgba(0,0,0,.25); backdrop-filter:blur(8px); border-bottom:1px solid var(--border); }
-    @media (prefers-color-scheme: light){ header{ background:rgba(255,255,255,.6); } }
-    header .inner{ display:flex; align-items:center; justify-content:space-between; }
-    nav a{ margin-left:12px; color:inherit; text-decoration:none; }
-    h1{ margin:10px 0 0; font-size:28px; }
-    .lead{ margin:6px 0 16px; color:var(--muted); }
-    .row{ display:grid; grid-template-columns:1fr; gap:12px; }
-    @media (min-width:900px){ .row{ grid-template-columns:2fr 1fr; } }
-    .card{ background:var(--card); border:1px solid var(--border); border-radius:14px; padding:16px; }
-    .big{ font-variant-numeric:tabular-nums; font-weight:700; font-size:40px; letter-spacing:.5px; }
-    .muted{ color:var(--muted); }
-    .controls{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
-    button,input{ font:inherit; border:1px solid var(--border); background:transparent; color:var(--text); border-radius:12px; padding:10px 12px; }
-    button{ cursor:pointer; }
-    .pill{ border-radius:999px; }
-    .primary{ background:var(--brand); color:#022; border-color:transparent; }
-    .danger{ background:var(--bad); color:#210; border-color:transparent; }
-    table{ width:100%; border-collapse:collapse; font-size:14px; margin-top:8px; }
-    th,td{ padding:8px; border-bottom:1px solid var(--border); text-align:left; }
-    .hidden{ display:none !important; }
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#0b0c10;color:#eee;line-height:1.6}
+    header,main,footer{max-width:900px;margin:0 auto;padding:16px}
+    nav a{margin-right:14px;text-decoration:none;color:#9ad}
+    h1,h2{margin:16px 0 8px}
+    .card{background:#121317;border:1px solid #222;border-radius:12px;padding:16px;margin:12px 0}
+    .grid{display:grid;gap:12px}
+    .grid-2{grid-template-columns:1fr; }
+    @media(min-width:820px){ .grid-2{grid-template-columns:1fr 1fr} }
+    .btn{border:1px solid #333;background:#1a1b20;color:#fff;padding:8px 12px;border-radius:8px;cursor:pointer}
+    .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .muted{color:#9aa}
+    ins.adsbygoogle{display:block;min-height:90px}
+    table{width:100%;border-collapse:collapse}
+    th,td{border-top:1px solid #222;padding:8px;text-align:left}
+    small{color:#9aa}
   </style>
-  
-  <link rel="manifest" href="manifest.json">
-  <script>
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js");
-}
-</script>
-
-
 </head>
 <body>
-  <header>
-    <div class="wrap inner">
-      <strong>QuietTimer</strong>
-      <nav>
-       <a href="#home">홈</a>
-        <a href="#about">소개</a>
-        <a href="#guide">사용법</a>
-        <a href="#faq">FAQ</a>
-        <a href="#privacy">개인정보</a>
-        <a href="#terms">약관</a>
-        <a href="#contact">문의</a>
-      </nav>
+<header class="row" style="justify-content:space-between;align-items:center">
+  <div class="row">
+    <strong>QuietTimer</strong>
+    <nav>
+      <a href="/">홈</a>
+      <a href="/about.html">소개</a>
+      <a href="/guide.html">사용법</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="/privacy.html">개인정보</a>
+      <a href="/terms.html">약관</a>
+      <a href="/contact.html">문의</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="card">
+    <h1>무소음 타이머</h1>
+    <p class="muted">소리 없이 작업 시간을 측정하는 스톱워치 & 카운트다운</p>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h2>스톱워치</h2>
+        <div id="stopwatch" style="font-size:2rem">00:00:00.00</div>
+        <input id="task" placeholder="작업 이름" aria-label="작업 이름" />
+        <div class="row">
+          <button class="btn" id="sw-start">시작</button>
+          <button class="btn" id="sw-pause">일시정지</button>
+          <button class="btn" id="sw-lap">랩</button>
+          <button class="btn" id="sw-reset">초기화</button>
+          <button class="btn" id="sw-export">CSV 내보내기</button>
+        </div>
+        <table id="laps"><thead><tr><th>시간</th><th>랩</th><th>작업 시각</th></tr></thead><tbody></tbody></table>
+      </div>
+
+      <div class="card">
+        <h2>카운트다운</h2>
+        <div style="font-size:2rem" id="countdown">25:00.00</div>
+        <div class="row">
+          <label>분 <input id="cd-min" type="number" value="25" min="0" style="width:80px"></label>
+          <label>초 <input id="cd-sec" type="number" value="0"  min="0" max="59" style="width:80px"></label>
+          <label><input id="vibrate" type="checkbox"> 진동</label>
+          <label><input id="notify"  type="checkbox"> 데스크톱 알림</label>
+        </div>
+        <div class="row">
+          <button class="btn" id="cd-start">시작</button>
+          <button class="btn" id="cd-pause">일시정지</button>
+          <button class="btn" id="cd-reset">초기화</button>
+        </div>
+        <p class="muted">종료 시 화면만으로 알려줍니다(무음). 진동/알림은 선택.</p>
+      </div>
     </div>
-  </header>
+  </section>
 
-  <main class="wrap">
-    <!-- 홈 -->
-    <section id="home" class="route">
-      <h1>무소음 타이머</h1>
-      <p class="lead">소리 없이 작업 시간을 측정하는 스톱워치 & 카운트다운</p>
+  <!-- 콘텐츠와 콘텐츠 사이에 ‘1개’만: 과도 노출 방지 -->
+  <section class="card">
+    <h2>스폰서</h2>
+    <ins class="adsbygoogle"
+         data-ad-client="ca-pub-3600890134957135"
+         data-ad-slot="DATA-AD-SLOT-HERE"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+    <small class="muted">광고는 서비스 유지에 도움이 됩니다.</small>
+  </section>
 
-      <div class="row">
-        <!-- 스톱워치 -->
-        <article class="card">
-          <h2>스톱워치</h2>
-          <p>작업 시간을 자유롭게 기록하고, 랩(Lap) 기능으로 세부 구간까지 관리할 수 있습니다.</p>
-          <div id="swDisplay" class="big" aria-live="polite">00:00:00.00</div>
-          <label>작업 이름
-            <input id="swTask" type="text" placeholder="예: 리포트 작성">
-          </label>
+  <section class="card" id="about">
+    <h2>QuietTimer 소개</h2>
+    <p>QuietTimer는 무소음 환경에서 집중할 수 있도록 설계된 무료 온라인 타이머입니다. 브라우저만 있으면 어디서든 사용할 수 있으며, 회원가입이나 설치가 필요 없습니다.</p>
+    <p>모든 기록은 <strong>브라우저 로컬 저장소(LocalStorage)</strong>에만 저장되며 서버로 전송되지 않습니다.</p>
+  </section>
 
+  <section class="card" id="guide">
+    <h2>사용법</h2>
+    <ol>
+      <li>스톱워치로 공부/업무 시간을 기록합니다.</li>
+      <li>카운트다운으로 목표 시간을 설정하고 집중합니다.</li>
+      <li>랩 기능으로 세부 구간을 관리합니다.</li>
+      <li>기록은 필요 시 CSV로 내보낼 수 있습니다.</li>
+    </ol>
+  </section>
 
-          <div class="controls">
-            <button id="swStart" class="primary pill">시작</button>
-            <button id="swPause" class="pill">일시정지</button>
-            <button id="swLap" class="pill">랩</button>
-            <button id="swReset" class="danger pill">초기화</button>
-            <button id="swExport" class="pill">CSV 내보내기</button>
-          </div>
+  <section class="card" id="faq">
+    <h2>자주 묻는 질문</h2>
+    <h3>기록이 서버로 전송되나요?</h3>
+    <p>아니요. 모든 데이터는 내 장치의 로컬 저장소에만 보관됩니다.</p>
+    <h3>모바일에서도 사용 가능한가요?</h3>
+    <p>네. 최신 모바일 브라우저에서 동일하게 동작합니다.</p>
+  </section>
+</main>
 
-          <table id="swTable" aria-label="랩 및 기록 테이블">
-            <thead><tr><th>시간</th><th>랩</th><th>작업</th><th>시각</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </article>
-<!-- quiettimer -->
+<footer class="row" style="justify-content:space-between">
+  <small>© <span id="year"></span> QuietTimer</small>
+  <small><a href="/privacy.html">개인정보처리방침</a> · <a href="/terms.html">이용약관</a> · <a href="/contact.html">문의</a></small>
+</footer>
 
-      <!-- 광고 블록 -->
-      <div class="card">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-3600890134957135"
-             data-ad-slot="2736365938"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-      </div>
-        <!-- 카운트다운 -->
-        <article class="card">
-          <h2>카운트다운</h2>
-          <p>Pomodoro 방식 공부, 운동, 발표 시간 관리 등 다양한 상황에 활용할 수 있습니다.</p>
-          <div id="cdDisplay" class="big" aria-live="polite">25:00.00</div>
-          <div class="controls">
-            <label>분 <input id="cdMin" type="number" min="0" value="25"></label>
-            <label>초 <input id="cdSec" type="number" min="0" max="59" value="0"></label>
-          </div>
-          <div class="controls">
-            <label><input id="vibrateOpt" type="checkbox"> 진동</label>
-            <label><input id="notifyOpt" type="checkbox"> 데스크톱 알림</label>
-          </div>
+<script>
+  // 간단한 타이머 로직 (로컬 저장·CSV 내보내기 포함)
+  const sw = {start:0, elapsed:0, timer:null};
+  const $ = s=>document.querySelector(s);
+  const $$ = s=>document.querySelectorAll(s);
+  const fmt = ms => {
+    const h=Math.floor(ms/3600000), m=Math.floor(ms%3600000/60000),
+          s=Math.floor(ms%60000/1000), cs=Math.floor(ms%1000/10);
+    return [h,m,s].map(v=>String(v).padStart(2,'0')).join(':')+'.'+String(cs).padStart(2,'0');
+  };
+  function renderLaps(){
+    const tbody = $('#laps tbody'); tbody.innerHTML='';
+    (JSON.parse(localStorage.getItem('laps')||'[]')).forEach(r=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td>${r.t}</td><td>${r.lap}</td><td>${new Date(r.at).toLocaleString()}</td>`;
+      tbody.appendChild(tr);
+    });
+  }
+  function pushLap(t){
+    const laps=JSON.parse(localStorage.getItem('laps')||'[]');
+    laps.push({t, lap:laps.length+1, at:Date.now()});
+    localStorage.setItem('laps', JSON.stringify(laps)); renderLaps();
+  }
+  $('#sw-start').onclick=()=>{
+    if(sw.timer) return;
+    sw.start = Date.now()-sw.elapsed;
+    sw.timer = setInterval(()=>{ sw.elapsed=Date.now()-sw.start; $('#stopwatch').textContent=fmt(sw.elapsed); }, 10);
+  };
+  $('#sw-pause').onclick=()=>{ clearInterval(sw.timer); sw.timer=null; };
+  $('#sw-reset').onclick=()=>{ sw.elapsed=0; $('#stopwatch').textContent=fmt(0); localStorage.removeItem('laps'); renderLaps(); };
+  $('#sw-lap').onclick=()=> pushLap($('#stopwatch').textContent);
+  $('#sw-export').onclick=()=>{
+    const rows = [['시간','랩','작업 시각']].concat((JSON.parse(localStorage.getItem('laps')||'[]')).map(r=>[r.t,r.lap,new Date(r.at).toLocaleString()]));
+    const csv = rows.map(r=>r.join(',')).join('\n');
+    const blob = new Blob([csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download='quiettimer-laps.csv'; a.click(); URL.revokeObjectURL(url);
+  };
 
+  // 카운트다운
+  let cdTimer=null, cdRemain=25*60*1000;
+  function renderCD(){ const m=Math.floor(cdRemain/60000), s=Math.floor(cdRemain%60000/1000); $('#countdown').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.00`; }
+  $('#cd-start').onclick=()=>{
+    const m=+$('#cd-min').value||0, s=+$('#cd-sec').value||0; cdRemain=(m*60+s)*1000; renderCD();
+    if(Notification && $('#notify').checked && Notification.permission!=='granted'){ Notification.requestPermission(); }
+    clearInterval(cdTimer);
+    cdTimer=setInterval(()=>{
+      cdRemain-=100; if(cdRemain<=0){ clearInterval(cdTimer); cdTimer=null; cdRemain=0; renderCD();
+        if($('#vibrate').checked && navigator.vibrate) navigator.vibrate([80,40,80]);
+        if($('#notify').checked && Notification && Notification.permission==='granted'){ new Notification('QuietTimer', { body:'카운트다운 종료', silent:true }); }
+        document.body.style.outline='3px solid #61dafb';
+        setTimeout(()=>document.body.style.outline='none', 2500);
+      } else renderCD();
+    },100);
+  };
+  $('#cd-pause').onclick=()=>{ clearInterval(cdTimer); cdTimer=null; };
+  $('#cd-reset').onclick=()=>{ clearInterval(cdTimer); cdTimer=null; cdRemain=(+$('#cd-min').value*60 + +$('#cd-sec').value)*1000; renderCD(); };
 
-          <div class="controls">
-            <button id="cdStart" class="primary pill">시작</button>
-            <button id="cdPause" class="pill">일시정지</button>
-            <button id="cdReset" class="danger pill">초기화</button>
-          </div>
-
-          <p class="muted" style="margin-top:6px">종료 시 화면만으로 알려줍니다(무음). 진동/알림은 선택.</p>
-        </article>
-      </div>
-    </section>
-
-
-    <!-- 소개 -->
-    <section id="about" class="route hidden">
-      <div class="card">
-        <h2>QuietTimer 소개</h2>
-        <p>QuietTimer는 무소음 환경에서 집중할 수 있도록 설계된 무료 온라인 타이머입니다. 브라우저만 있으면 어디서든 사용할 수 있으며, 별도의 회원가입이나 설치가 필요하지 않습니다.</p>
-        <p>특히 도서관, 스터디룸, 사무실 등 소리를 낼 수 없는 상황에서 효율적으로 시간을 관리할 수 있도록 도와줍니다.</p>
-      </div>
-    </section>
-
-    <!-- 사용법 -->
-    <section id="guide" class="route hidden">
-      <div class="card">
-        <h2>사용법</h2>
-        <ol>
-          <li>스톱워치를 이용해 공부/업무 시간을 기록하세요.</li>
-          <li>카운트다운 기능으로 목표 시간을 설정하고 집중하세요.</li>
-          <li>랩 기능을 통해 세부 구간을 기록할 수 있습니다.</li>
-          <li>기록은 로컬 저장소에만 저장되며, 필요 시 CSV 파일로 내보낼 수 있습니다.</li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section id="faq" class="route hidden">
-      <div class="card">
-        <h2>자주 묻는 질문</h2>
-        <h3>1. 기록은 서버로 전송되나요?</h3>
-        <p>아니요. 모든 기록은 브라우저 로컬 저장소(LocalStorage)에만 보관됩니다.</p>
-        <h3>2. 모바일에서도 사용 가능한가요?</h3>
-        <p>네. 모바일 브라우저에서도 동일하게 동작합니다.</p>
-        <h3>3. 광고가 표시되는 이유는?</h3>
-        <p>서비스 유지 및 무료 제공을 위해 Google AdSense 광고가 일부 영역에 표시됩니다.</p>
-      </div>
-    </section>
-
-    <!-- 개인정보 -->
-    <section id="privacy" class="route hidden">
-      <div class="card">
-        <h2>개인정보처리방침</h2>
-        <p>QuietTimer는 사용자의 개인정보를 수집하지 않습니다. 기록 데이터는 브라우저 로컬 저장소에만 저장되며, 서버로 전송되지 않습니다.</p>
-      </div>
-    </section>
-
-    <!-- 약관 -->
-    <section id="terms" class="route hidden">
-      <div class="card">
-        <h2>이용약관</h2>
-        <ol>
-          <li>본 서비스는 무료로 제공되며, “있는 그대로” 사용됩니다.</li>
-          <li>사용자는 타인의 권리를 침해하지 않는 선에서 서비스를 이용해야 합니다.</li>
-          <li>서비스 이용 중 발생하는 모든 기록은 사용자 기기에만 저장됩니다.</li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- 문의 -->
-    <section id="contact" class="route hidden">
-      <div class="card">
-        <h2>문의하기</h2>
-        <p>서비스 관련 문의는 이메일 <a href="mailto:contact@quiettimer.app">contact@quiettimer.app</a> 으로 연락 주시기 바랍니다.</p>
-      </div>
-    </section>
-  </main>
-
-  <script>
-    // ---------- 공통 유틸 ----------
-    const $ = s => document.querySelector(s);
-    const $$ = s => [...document.querySelectorAll(s)];
-    const pad2 = n => String(n).padStart(2,'0');
-    const fmt = (ms) => {
-      ms = Math.max(0, Math.floor(ms));
-      const h = Math.floor(ms / 3600000);
-      const m = Math.floor(ms % 3600000 / 60000);
-      const s = Math.floor(ms % 60000 / 1000);
-      const cs = Math.floor(ms % 1000 / 10);
-      return `${pad2(h)}:${pad2(m)}:${pad2(s)}.${pad2(cs)}`;
-    };
-    const now = () => performance.now();
-
-    // ---------- 라우팅 ----------
-    function route(){
-      const h = location.hash.replace('#','') || 'home';
-      $$('.route').forEach(el => el.classList.toggle('hidden', el.id !== h));
-      window.scrollTo({top:0});
-    }
-    addEventListener('hashchange', route);
-
-    // ---------- 스톱워치 ----------
-    const sw = { running:false, startAt:0, elapsed:0, laps:[] };
-    const swDisp = $('#swDisplay');
-    let swRaf = null;
-
-    function swTick(){
-      if(!sw.running) return;
-      const t = sw.elapsed + (now() - sw.startAt);
-      swDisp.textContent = fmt(t);
-      swRaf = requestAnimationFrame(swTick);
-    }
-    function swStart(){
-      if(sw.running) return;
-      sw.running = true;
-      sw.startAt = now();
-      swTick();
-    }
-    function swPause(){
-      if(!sw.running) return;
-      sw.elapsed += now() - sw.startAt;
-      sw.running = false;
-      cancelAnimationFrame(swRaf);
-    }
-    function swReset(){
-      sw.running = false;
-      sw.elapsed = 0;
-      cancelAnimationFrame(swRaf);
-      swDisp.textContent = fmt(0);
-    }
-    function swLap(){
-      const t = sw.running ? sw.elapsed + (now() - sw.startAt) : sw.elapsed;
-      const rec = {
-        time: t,
-        lap: sw.laps.length + 1,
-        task: $('#swTask').value.trim(),
-        at: new Date().toISOString()
-      };
-      sw.laps.push(rec);
-      saveHistory(rec);
-      renderSw();
-    }
-    function renderSw(){
-      const tb = $('#swTable tbody');
-      tb.innerHTML = '';
-      for(const r of sw.laps.slice().reverse()){
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${fmt(r.time)}</td><td>${r.lap}</td><td>${r.task || '-'}</td><td>${new Date(r.at).toLocaleString()}</td>`;
-        tb.appendChild(tr);
-      }
-    }
-    function swExport(){
-      const rows = JSON.parse(localStorage.getItem('qt_history') || '[]');
-      let csv = 'time_ms,time_formatted,lap,task,at\\n';
-      for(const r of rows){
-        const safeTask = (r.task || '').replaceAll('"','\\"');
-        csv += `${r.time},${fmt(r.time)},${r.lap||''},"${safeTask}",${r.at}\\n`;
-      }
-      const blob = new Blob([csv], {type:'text/csv'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'quiettimer_history.csv';
-      a.click();
-    }
-    function saveHistory(rec){
-      const arr = JSON.parse(localStorage.getItem('qt_history') || '[]');
-      arr.push(rec);
-      localStorage.setItem('qt_history', JSON.stringify(arr));
-    }
-
-    // ---------- 카운트다운 ----------
-    const cd = { running:false, endAt:0, duration:0 };
-    const cdDisp = $('#cdDisplay');
-    let cdRaf = null;
-
-    const setCdDisplay = (ms) => { cdDisp.textContent = (ms >= 0 ? fmt(ms).slice(3) : '00:00.00'); };
-
-    function cdStart(){
-      const m = parseInt($('#cdMin').value || '0',10);
-      const s = parseInt($('#cdSec').value || '0',10);
-      if(!cd.running && cd.duration === 0) cd.duration = (m*60 + s) * 1000;
-      if(cd.duration <= 0){ alert('시간을 입력하세요'); return; }
-      if(!cd.running){
-        cd.endAt = now() + cd.duration;
-        cd.running = true;
-        cdTick();
-      }
-    }
-    function cdPause(){
-      if(!cd.running) return;
-      cd.duration = cd.endAt - now();
-      cd.running = false;
-      cancelAnimationFrame(cdRaf);
-    }
-    function cdReset(){
-      cd.running = false;
-      cancelAnimationFrame(cdRaf);
-      const m = parseInt($('#cdMin').value || '0',10);
-      const s = parseInt($('#cdSec').value || '0',10);
-      cd.duration = 0;
-      setCdDisplay((m*60 + s) * 1000);
-    }
-    function cdTick(){
-      if(!cd.running) return;
-      const remain = Math.max(0, Math.floor(cd.endAt - now()));
-      setCdDisplay(remain);
-      if(remain <= 0){
-        cd.running = false;
-        // 진동 (지원 기기)
-        if($('#vibrateOpt').checked && navigator.vibrate){ navigator.vibrate([200,100,200]); }
-        // 무음 알림
-        if($('#notifyOpt').checked && 'Notification' in window){
-          if(Notification.permission === 'granted') new Notification('카운트다운 완료', { silent:true });
-          else Notification.requestPermission().then(p => {
-            if(p === 'granted') new Notification('카운트다운 완료', { silent:true });
-          });
-        }
-        return;
-      }
-      cdRaf = requestAnimationFrame(cdTick);
-    }
-
-    // ---------- 이벤트 바인딩 & 초기화 ----------
-    $('#swStart').onclick = swStart;
-    $('#swPause').onclick = swPause;
-    $('#swReset').onclick = swReset;
-    $('#swLap').onclick   = swLap;
-    $('#swExport').onclick= swExport;
-
-    $('#cdStart').onclick = cdStart;
-    $('#cdPause').onclick = cdPause;
-    $('#cdReset').onclick = cdReset;
-
-    route();
-  </script>
+  // PWA
+  if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js'); }
+  document.getElementById('year').textContent = new Date().getFullYear();
+  renderLaps(); renderCD();
+</script>
 </body>
-  </html>
+</html>
