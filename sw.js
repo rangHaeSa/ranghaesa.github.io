@@ -1,19 +1,13 @@
-// QuietTimer 서비스워커 (오프라인 캐시)
-const CACHE = "quiettimer-v1";
-const ASSETS = [
-  "./",
-  "./index.html",
-  "./manifest.json"
-];
+// QuietTimer 서비스워커
+const CACHE = "quiettimer-v2";
+const ASSETS = ["/","/index.html","/manifest.json","/about.html","/guide.html","/faq.html","/privacy.html","/terms.html","/contact.html"];
 
-// 설치: 캐시에 파일 넣기
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
 });
-
-// 요청 가로채서 캐시 먼저 응답
+self.addEventListener("activate", e => {
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));
+});
 self.addEventListener("fetch", e => {
-  e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request))
-  );
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
 });
