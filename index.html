@@ -9,7 +9,7 @@
   <link rel="icon" href="/icon-192.png" sizes="192x192">
   <link rel="icon" href="/icon-512.png" sizes="512x512">
   <link rel="canonical" href="https://ranghaesa.github.io/">
-  <link rel="stylesheet" href="theme-couple.css">
+  <link rel="stylesheet" href="theme-couple-dark.css">
 
 
   <!-- AdSense: client ID만 넣고, 슬롯은 아래 <ins>에서 교체 -->
@@ -100,6 +100,12 @@
          data-full-width-responsive="true"></ins>
     <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
     <small class="muted">광고는 서비스 유지에 도움이 됩니다.</small>
+  </section>
+  <!-- 현재 시각 표시 카드 -->
+  <section class="card" id="now">
+    <h2>현재 시각</h2>
+    <div id="korea-time" class="clock"></div>
+    <p class="muted">대한민국 표준시 (KST, UTC+9)</p>
   </section>
 
   <section class="card" id="about">
@@ -193,6 +199,24 @@
   if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js'); }
   document.getElementById('year').textContent = new Date().getFullYear();
   renderLaps(); renderCD();
+  // 한국 시간 표시
+function renderKoreaTime() {
+  const now = new Date();
+  // UTC 기준 시간에 한국 표준시(UTC+9) 보정
+  const korea = new Date(now.getTime() + (9 * 60 + now.getTimezoneOffset()) * 60000);
+  const Y = korea.getUTCFullYear();
+  const M = String(korea.getUTCMonth() + 1).padStart(2, '0');
+  const D = String(korea.getUTCDate()).padStart(2, '0');
+  const h = String(korea.getUTCHours()).padStart(2, '0');
+  const m = String(korea.getUTCMinutes()).padStart(2, '0');
+  const s = String(korea.getUTCSeconds()).padStart(2, '0');
+  const timeStr = `${Y}-${M}-${D} ${h}:${m}:${s}`;
+  const el = document.getElementById('korea-time');
+  if (el) el.textContent = timeStr;
+}
+setInterval(renderKoreaTime, 1000);
+renderKoreaTime();
+
 </script>
 </body>
 </html>
