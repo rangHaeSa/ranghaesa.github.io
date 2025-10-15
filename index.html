@@ -11,11 +11,22 @@
   <link rel="canonical" href="https://ranghaesa.github.io/">
   <link rel="stylesheet" href="theme-couple-dark.css">
 
+ <!-- 구조화 데이터 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "QuietTimer",
+    "url": "https://ranghaesa.github.io/",
+    "applicationCategory": "Productivity",
+    "operatingSystem": "Web",
+    "description": "무소음 스톱워치 & 카운트다운. 기록은 로컬에만 저장.",
+    "publisher": {"@type": "Organization", "name": "QuietTimer"}
+  }
+  </script>
 
-  <!-- AdSense: client ID만 넣고, 슬롯은 아래 <ins>에서 교체 -->
-  <script async
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3600890134957135"
-    crossorigin="anonymous"></script>
+  <!-- AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3600890134957135" crossorigin="anonymous"></script>
 
   <style>
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;background:#0b0c10;color:#eee;line-height:1.6}
@@ -44,6 +55,8 @@
       <a href="/about.html">소개</a>
       <a href="/guide.html">사용법</a>
       <a href="/faq.html">FAQ</a>
+      <a href="/blog/pomodoro.html">포모도로</a>
+      <a href="/blog/focus-habits.html">집중 습관</a>
       <a href="/privacy.html">개인정보</a>
       <a href="/terms.html">약관</a>
       <a href="/contact.html">문의</a>
@@ -89,24 +102,25 @@
       </div>
     </div>
   </section>
+
   <!-- 현재 시각 표시 카드 -->
   <section class="card" id="now">
     <h2>현재 시각</h2>
     <div id="korea-time" class="clock"></div>
     <p class="muted">대한민국 표준시 (KST, UTC+9)</p>
   </section>
+
   <!-- 콘텐츠와 콘텐츠 사이에 ‘1개’만: 과도 노출 방지 -->
   <section class="card">
-    <h2>스폰서</h2>
+    <h2>후원 광고</h2>
     <ins class="adsbygoogle"
-         data-ad-client="ca-pub-3600890134957135"
-         data-ad-slot="8041446505"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
+        data-ad-client="ca-pub-3600890134957135"
+        data-ad-slot="8041446505"
+        data-ad-format="auto"
+        data-full-width-responsive="true"></ins>
     <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
-    <small class="muted">광고는 서비스 유지에 도움이 됩니다.</small>
+    <small class="muted">QuietTimer 운영에 도움을 주는 광고입니다.</small>
   </section>
-
 
   <section class="card" id="about">
     <h2>QuietTimer 소개</h2>
@@ -181,12 +195,12 @@
   function renderCD(){ const m=Math.floor(cdRemain/60000), s=Math.floor(cdRemain%60000/1000); $('#countdown').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.00`; }
   $('#cd-start').onclick=()=>{
     const m=+$('#cd-min').value||0, s=+$('#cd-sec').value||0; cdRemain=(m*60+s)*1000; renderCD();
-    if(Notification && $('#notify').checked && Notification.permission!=='granted'){ Notification.requestPermission(); }
+    if(window.Notification && $('#notify').checked && Notification.permission!=='granted'){ Notification.requestPermission(); }
     clearInterval(cdTimer);
     cdTimer=setInterval(()=>{
       cdRemain-=100; if(cdRemain<=0){ clearInterval(cdTimer); cdTimer=null; cdRemain=0; renderCD();
         if($('#vibrate').checked && navigator.vibrate) navigator.vibrate([80,40,80]);
-        if($('#notify').checked && Notification && Notification.permission==='granted'){ new Notification('QuietTimer', { body:'카운트다운 종료', silent:true }); }
+        if(window.Notification && $('#notify').checked && Notification.permission==='granted'){ new Notification('QuietTimer', { body:'카운트다운 종료', silent:true }); }
         document.body.style.outline='3px solid #61dafb';
         setTimeout(()=>document.body.style.outline='none', 2500);
       } else renderCD();
@@ -199,24 +213,22 @@
   if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js'); }
   document.getElementById('year').textContent = new Date().getFullYear();
   renderLaps(); renderCD();
-  // 한국 시간 표시
-function renderKoreaTime() {
-  const now = new Date();
-  // UTC 기준 시간에 한국 표준시(UTC+9) 보정
-  const korea = new Date(now.getTime() + (9 * 60 + now.getTimezoneOffset()) * 60000);
-  const Y = korea.getUTCFullYear();
-  const M = String(korea.getUTCMonth() + 1).padStart(2, '0');
-  const D = String(korea.getUTCDate()).padStart(2, '0');
-  const h = String(korea.getUTCHours()).padStart(2, '0');
-  const m = String(korea.getUTCMinutes()).padStart(2, '0');
-  const s = String(korea.getUTCSeconds()).padStart(2, '0');
-  const timeStr = `${Y}-${M}-${D} ${h}:${m}:${s}`;
-  const el = document.getElementById('korea-time');
-  if (el) el.textContent = timeStr;
-}
-setInterval(renderKoreaTime, 1000);
-renderKoreaTime();
 
+  // 한국 시간 표시
+  function renderKoreaTime() {
+    const now = new Date();
+    const korea = new Date(now.getTime() + (9 * 60 + now.getTimezoneOffset()) * 60000);
+    const Y = korea.getUTCFullYear();
+    const M = String(korea.getUTCMonth() + 1).padStart(2, '0');
+    const D = String(korea.getUTCDate()).padStart(2, '0');
+    const h = String(korea.getUTCHours()).padStart(2, '0');
+    const m = String(korea.getUTCMinutes()).padStart(2, '0');
+    const s = String(korea.getUTCSeconds()).padStart(2, '0');
+    const el = document.getElementById('korea-time');
+    if (el) el.textContent = `${Y}-${M}-${D} ${h}:${m}:${s}`;
+  }
+  setInterval(renderKoreaTime, 1000);
+  renderKoreaTime();
 </script>
 </body>
 </html>
