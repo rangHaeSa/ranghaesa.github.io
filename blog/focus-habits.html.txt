@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>무소음 환경에서 집중 습관 10가지</title>
+  <meta name="description" content="도서관/스터디룸에서 쓸 수 있는 조용한 집중 습관 팁 10가지. QuietTimer와 함께 실천하세요.">
+  <link rel="canonical" href="https://ranghaesa.github.io/blog/focus-habits.html">
+</head>
+<body>
+<main style="max-width:900px;margin:0 auto;padding:16px">
+  <h1>무소음 환경에서 집중 습관 10가지</h1>
+  <ol>
+    <li>타이머는 <strong>무음</strong>으로 두고 화면 표시만 사용하기</li>
+    <li>필요 시 <em>진동</em>만 켜서 본인만 인지하기</li>
+    <li>자리에 앉기 전 목표 1~3개 적기</li>
+    <li>방해 앱은 일괄 차단(포커스 모드)</li>
+    <li>25분 단위로 작업 쪼개기</li>
+    <li>휴식 시간엔 자리에서 일어나 스트레칭</li>
+    <li>물 충분히 마시기</li>
+    <li>소음을 가리는 대신 조용함을 유지</li>
+    <li>하루 끝에 기록을 CSV로 내보내 회고</li>
+    <li>일관성: 매일 같은 시간/장소에서 시작</li>
+  </ol>
+</main>
+</body>
+</html>
